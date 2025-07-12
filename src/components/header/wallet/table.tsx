@@ -25,7 +25,6 @@ export const WalletTable: React.FC<Props> = (props) => {
 
   return (
     <>
-      {/* comment  */}
       {tables?.map((el: any) => {
         return (
           <Table
