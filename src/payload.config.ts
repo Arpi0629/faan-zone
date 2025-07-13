@@ -1,5 +1,5 @@
 // storage-adapter-import-placeholder
-import { sqliteAdapter } from "@payloadcms/db-sqlite";
+import { postgresAdapter } from "@payloadcms/db-postgres";
 import { payloadCloudPlugin } from "@payloadcms/payload-cloud";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import path from "path";
@@ -9,7 +9,7 @@ import sharp from "sharp";
 
 import { Users } from "./collections/Users";
 import { Media } from "./collections/Media";
-import { Banner } from "./collections/banner";
+import { Banner } from "./collections/Banner";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -27,9 +27,9 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),
   },
-  db: sqliteAdapter({
-    client: {
-      url: process.env.DATABASE_URI || "",
+  db: postgresAdapter({
+    pool: {
+      connectionString: process.env.DATABASE_URI || "",
     },
   }),
   sharp,
@@ -37,20 +37,4 @@ export default buildConfig({
     payloadCloudPlugin(),
     // storage-adapter-placeholder
   ],
-  localization: {
-    locales: [
-      {
-        label: "English",
-        code: "en",
-      },
-      {
-        label: "Armenian",
-        code: "hy",
-        // opt-in to setting default text-alignment on Input fields to rtl (right-to-left)
-        // when current locale is rtl
-      },
-    ],
-    defaultLocale: "en", // required
-    fallback: true, // defaults to true
-  },
 });

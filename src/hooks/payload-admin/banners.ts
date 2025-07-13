@@ -10,15 +10,7 @@ interface ReturnProps {
 }
 
 export const useBanners = (): ReturnProps => {
-  const pathname = usePathname();
-
-  const locale =
-    pathname.split("/").find((el) => el === "hy" || el === "en") || "";
-  const {
-    data: banners,
-    error,
-    isLoading,
-  } = useSWR(ApiRoutes.BANNER + "?locale=" + locale, fetcher);
+  const { data: banners, error, isLoading } = useSWR(ApiRoutes.BANNER, fetcher);
 
   const data = isLoading || error ? {} : banners;
 
